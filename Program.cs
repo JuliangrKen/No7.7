@@ -49,6 +49,7 @@ abstract class NoHomeDelivery : Delivery
 {
     /* ... */
     public NoHomeDelivery() : base() { /* ... */ }
+    protected void Log() { }
 }
 class PickPoints
 {
@@ -69,6 +70,7 @@ class PickPoints
 class Shops
 { 
     /* ... */
+
 }
 
 class PickPointDelivery : NoHomeDelivery
@@ -84,18 +86,37 @@ class PickPointDelivery : NoHomeDelivery
         PickPoints pp = new PickPoints(Address);
         return pp.DeliveryCompanies[0];
     }
+    protected new void Log() { }
 }
 
 class ShopDelivery : NoHomeDelivery
 {
     /* ... */
     public ShopDelivery(string Address) : base() { /* ... */ }
+    protected new void Log() { }
 }
 
 class Product
 {
+    public string Name
+    {
+        get => Name;
+        set
+        {
+            if (Name != value)
+                Name = value;
+            else
+                Console.WriteLine("Измените наименование продукта");
+        }
+    }
+    public string? Description;
+    public string? Price;
+    public int lot;
 
+    /* ... */
+    
 }
+
 // Класс с набором инструментов для изменения информации заказа:
 static class OrderEditing
 {
@@ -112,8 +133,24 @@ static class OrderEditing
         /* тут логика для проверки должна быть, но её опустим */
         return number;
     }
-    public static void GenerateNumber (this ref int a)
+    public static void GenerateNumber(this ref int a)
     {
         a = GenerateNumber();
+    }
+    public static void GenerateNumber(this string a)
+    {
+        a = GenerateNumber().ToString();
+    }
+    public static void Sort(Product[] product)
+    {
+        for (int i = 0; i < product.Length; i++)
+        {
+            // 
+        }
+    }
+    public static Product operator !(Product pr)
+    {
+        Console.WriteLine("Лот продукта: " + pr.lot);
+        return pr;
     }
 }
