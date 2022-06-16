@@ -15,14 +15,27 @@
 
     // ... Другие поля
 }
+// Класс с некоторыми иновациями для некоторых пользователей
+class TestOrder<TDelivery, TStruct> : Order<TDelivery, TStruct>
+    where TDelivery : Delivery
+    where TStruct : struct
+{
+    public TestOrder()
+    {
+        /* *** */
+        Number.GenerateNumber();
+        /* *** */
+    }
+    /* *** */
+}
 abstract class Delivery
 {
     public string? Address;
-    public Delivery(string Address)
+    protected Delivery(string Address)
     {
         this.Address = Address;
     }
-    public Delivery() { }
+    protected Delivery() { }
 }
 class HomeDelivery : Delivery
 {
@@ -64,9 +77,9 @@ class PickPointDelivery : NoHomeDelivery
 
     public PickPointDelivery(string Address) : base()
     {
-        Address = dad();
+        Address = SortCompanies();
     }
-    private string dad()
+    private string SortCompanies()
     {
         PickPoints pp = new PickPoints(Address);
         return pp.DeliveryCompanies[0];
@@ -86,6 +99,7 @@ class Product
 // Класс с набором инструментов для изменения информации заказа:
 static class OrderEditing
 {
+    public static string NameCom { get { return "Интернет магазин точка ру"; } }
     public static void ChangeAddress(ref Delivery delivery, string NewAddress)
     {
         delivery.Address = NewAddress;
@@ -97,5 +111,9 @@ static class OrderEditing
         int number = random.Next(10000000, 99999999);
         /* тут логика для проверки должна быть, но её опустим */
         return number;
+    }
+    public static void GenerateNumber (this ref int a)
+    {
+        a = GenerateNumber();
     }
 }
